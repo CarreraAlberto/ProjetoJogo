@@ -7,7 +7,7 @@ pygame.display.set_caption('Tiro ao alvo')
  
 game = True
 
-image = pygame.image.load('imagens/Chão pygame.png').convert()
+image = pygame.image.load('imagens/bloco.png').convert()
 
 while game:
     for event in pygame.event.get():
@@ -20,5 +20,5 @@ while game:
         window.blit(image, (distancia_x, 420))
         distancia_x+=250
     pygame.display.update()
- 
+
 pygame.quit()
