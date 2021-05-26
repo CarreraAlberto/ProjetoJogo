@@ -3,12 +3,12 @@ import pygame
 pygame.init()
 
 # ----- Gera tela principal 
-window = pygame.display.set_mode((1500, 500))
+window = pygame.display.set_mode((1500, 800))
 pygame.display.set_caption('Libere a Badernahhh')
 
 # ----- Inicia assets 
 image_bloco2 = pygame.image.load('imagens/bloco2.png').convert()
-image_arqueiro = pygame.image.load('imagens/arqueiro.JPG').convert()
+image_arqueiro = pygame.image.load('imagens/arco.png').convert()
 image_arqueiro = pygame.transform.scale(image_arqueiro, (188, 274))
 image_alvo = pygame.image.load('imagens/Covid_alvo.png').convert()
 image_alvo = pygame.transform.scale(image_alvo, (100, 100))
@@ -30,7 +30,7 @@ while game:
     window.fill((255, 255, 255))
     distancia_x = 0
     while distancia_x < 1501:
-        window.blit(image_bloco2, (distancia_x, 420))
+        window.blit(image_bloco2, (distancia_x, 700))
         distancia_x+=250
     window.blit(image_arqueiro, (0, 145))
     window.blit(image_alvo, (1000, 145))
