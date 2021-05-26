@@ -4,7 +4,7 @@ pygame.init()
 
 # ----- Gera tela principal 
 window = pygame.display.set_mode((1500, 500))
-pygame.display.set_caption('Tiro ao alvo')
+pygame.display.set_caption('Libere a Baderna')
 
 # ----- Inicia assets 
 image_bloco2 = pygame.image.load('imagens/bloco2.png').convert()
