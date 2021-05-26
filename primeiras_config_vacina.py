@@ -11,7 +11,7 @@ image_bloco2 = pygame.image.load('imagens/bloco2.png').convert()
 image_arqueiro = pygame.image.load('imagens/pessoas.png').convert()
 image_arqueiro = pygame.transform.scale(image_arqueiro, (200, 200))
 image_alvo = pygame.image.load('imagens/Covid_alvo.png').convert()
-image_alvo = pygame.transform.scale(image_alvo, (115, 115))
+image_alvo = pygame.transform.scale(image_alvo, (100, 100))
 
 # ----- Inicia estruturas de dados 
 game = True
