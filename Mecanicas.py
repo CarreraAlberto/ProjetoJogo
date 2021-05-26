@@ -1,10 +1,13 @@
 import pygame
- 
+import random
+
 pygame.init()
 
 # ----- Gera tela principal
 larguraw = 1500
 alturaw = 800
+largurac = 100
+alturac = 100
 window = pygame.display.set_mode((larguraw, alturaw))
 pygame.display.set_caption('Libere a Badernahhh')
 
@@ -28,15 +31,32 @@ class arqueiro(pygame.sprite.Sprite):
         self.speedx = 0
 
     def update(self):
-        # Atualização da posição da mira
+        # Atualização da posição do arco
         self.rect.x += self.speedx
 
+        # Não deixa sair da tela
         if self.rect.right > alturaw:
             self.rect.right = alturaw
         if self.rect.left < 0:
             self.rect.left = 0
 
+class Meteor(pygame.sprite.Sprite):
+    def __init__(self, img):
+        # Construtor da classe mãe (Sprite).
+        pygame.sprite.Sprite.__init__(self)
 
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randint(500, larguraw-largurac)
+        self.rect.y = random.randint(0, 650)
+
+    def update(self):
+        # Atualizando a posição do meteoro
+
+        # Se o tempo de 7 segundos acabar, sorteia nova posição do covid
+        if 
+            self.rect.x = random.randint(500, larguraw-largurac)
+            self.rect.y = random.randint(0, 650)
 
 game = True
 
@@ -46,6 +66,7 @@ FPS = 30
 
 # Criando jogador
 player = arqueiro(image_arqueiro)
+
 # ===== Loop principal =====
 while game:
     clock.tick(FPS)
@@ -56,14 +77,24 @@ while game:
         if event.type == pygame.QUIT:
             game = False
 
-    if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN:
             # Dependendo da tecla, altera a velocidade.
             if event.key == pygame.K_UP:
                 player.speedx -= 8
             if event.key == pygame.K_DOWN:
                 player.speedx += 8
 
+        # Verifica se soltou alguma tecla.
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                player.speedx += 8
+            if event.key == pygame.K_DOWN:
+                player.speedx -= 8
+
     # ----- Atualiza estado do jogo
+    # Atualizando a posição dos meteoros
+    all_sprites.update()
+
     # ----- Gera saídas
     window.fill((255, 255, 255))
     distancia_x = 0
