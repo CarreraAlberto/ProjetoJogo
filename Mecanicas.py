@@ -1,11 +1,14 @@
+# ===== Inicialização =====
+# ----- Importa e inicia pacotes
 import pygame
 import random
- 
+
 pygame.init()
- 
+
 # ----- Gera tela principal
+tempofps = 0
 larguraw = 1500
-alturaw = 800
+alturaw = 750
 largurac = 100
 alturac = 100
 window = pygame.display.set_mode((larguraw, alturaw))
@@ -16,102 +19,54 @@ image_bloco2 = pygame.image.load('imagens/bloco2.png').convert()
 image_arqueiro = pygame.image.load('imagens/arco.png').convert()
 image_arqueiro = pygame.transform.scale(image_arqueiro, (188, 274))
 image_alvo = pygame.image.load('imagens/Covid_alvo.png').convert()
-image_alvo = pygame.transform.scale(image_alvo, (100, 100))
- 
-# ----- Inicia estruturas de dados 
-# Definindo os novos tipos
-class arqueiro(pygame.sprite.Sprite):
-    def __init__(self, img):
-        pygame.sprite.Sprite.__init__(self)
- 
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.centerx = larguraw / 2
-        self.rect.bottom = alturaw
-        self.speedx = 0
- 
-    def update(self):
-        # Atualização da posição do arco
-        self.rect.x += self.speedx
- 
-        # Não deixa sair da tela
-        if self.rect.right > alturaw:
-            self.rect.right = alturaw
-        if self.rect.left < 0:
-            self.rect.left = 0
- 
-class virus(pygame.sprite.Sprite):
-    def __init__(self, img):
-        # Construtor da classe mãe (Sprite).
-        pygame.sprite.Sprite.__init__(self)
- 
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randint(500, larguraw-largurac)
-        self.rect.y = random.randint(0, 650)
- 
-    def update(self):
-        # Atualizando a posição do meteoro
- 
-        # Se o tempo de 7 segundos acabar, sorteia nova posição do covid
-        if 1<0:
-            self.rect.x = random.randint(500, larguraw-largurac)
-            self.rect.y = random.randint(0, 650)
- 
+image_alvo = pygame.transform.scale(image_alvo, (largurac, alturac))
+
+# ----- Inicia estruturas de dados
 game = True
- 
-# Variável para o ajuste de velocidade
+corona_x = random.randint(500, larguraw-largurac)
+corona_y = random.randint(0+75, 550-alturac-75)
+corona_y0 = corona_y
+coronaspeed_y = random.randint(1, 5)
 clock = pygame.time.Clock()
-FPS = 30
- 
-# Criando covid
-sprite = pygame.sprite.Group()
-# Criando jogador
-player = arqueiro(image_arqueiro)
-sprite.add(player)
-#Criando o Covid
-Covid = virus(image_alvo)
-sprite.add(virus)
- 
+FPS = 15
+
 # ===== Loop principal =====
 while game:
     clock.tick(FPS)
- 
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
         if event.type == pygame.QUIT:
             game = False
- 
-        if event.type == pygame.KEYDOWN:
-            # Dependendo da tecla, altera a velocidade.
-            if event.key == pygame.K_UP:
-                player.speedx -= 8
-            if event.key == pygame.K_DOWN:
-                player.speedx += 8
- 
-        # Verifica se soltou alguma tecla.
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP:
-                player.speedx += 8
-            if event.key == pygame.K_DOWN:
-                player.speedx -= 8
- 
+
     # ----- Atualiza estado do jogo
-    # Atualizando a posição dos meteoros
-    sprite.update()
- 
+    
+    # Atualizando a posição do meteoro:
+    corona_y += coronaspeed_y
+
+    # Fazer o corona ir e voltar 
+    tempofps +=1
+    if tempofps > 150:
+        corona_x = random.randint(500, larguraw-largurac)
+        corona_y = random.randint(0+75, 550-alturac-75)
+        corona_y0 = corona_y
+        coronaspeed_y = random.randint(1, 5)
+        tempofps = 0
+    
+    if corona_y > corona_y0+75:
+        coronaspeed_y = coronaspeed_y*-1
+    if corona_y < corona_y0-75:
+        coronaspeed_y = coronaspeed_y*-1
+
     # ----- Gera saídas
     window.fill((255, 255, 255))
     distancia_x = 0
     while distancia_x < 1501:
-        window.blit(image_bloco2, (distancia_x, 700))
+        window.blit(image_bloco2, (distancia_x, 650))
         distancia_x+=250
-    window.blit(image_arqueiro, (0, 145))
-    window.blit(image_alvo, (1000, 145))
-    sprite.draw(window)
-    
-    pygame.display.update()
- 
+    window.blit(image_arqueiro, (0, 200))
+    window.blit(image_alvo, (corona_x, corona_y))
+    pygame.display.update()  # Mostra o novo frame para o jogador
+
 # ===== Finalização =====
-pygame.quit()
+pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
