@@ -24,7 +24,7 @@ image_linha = pygame.image.load('imagens/linha.png').convert_alpha()
 
 
 # ----- Inicia estruturas de dados
-#Defini tipo arqueiro
+#Define tipo arqueiro
 class Arco(pygame.sprite.Sprite):
     def __init__(self,img):
         pygame.sprite.Sprite.__init__(self)
@@ -43,7 +43,17 @@ class Arco(pygame.sprite.Sprite):
         if self.rect.bottom > 650:
             self.rect.bottom = 650
 
-# Defini tipo corona
+#Define linha
+class Linha(pygame.sprite.Sprite):
+    def __init__(self,img):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.left = 250
+        self.rect.top = -100
+
+#Define tipo corona
 class Corona(pygame.sprite.Sprite):
     def __init__(self, img):
         pygame.sprite.Sprite.__init__(self)
@@ -78,9 +88,14 @@ FPS = 15
 all_sprites = pygame.sprite.Group()
 corona = Corona(image_alvo)
 all_sprites.add(corona)
+coronaalvo = pygame.sprite.Group()
+coronaalvo.add(corona)
 #Criando o player
 arco = Arco(image_arqueiro)
 all_sprites.add(arco)
+#Criando linha
+linha = Linha(image_linha)
+all_sprites.add(linha)
 
 # ===== Loop principal =====
 while game:
@@ -107,7 +122,8 @@ while game:
     # ----- Atualiza estado do jogo
     all_sprites.update()
 
-    # Fazer o corona ir e voltar 
+    # Corona bate na linha
+    colisao = pygame.sprite.spritecollide(linha,coronaalvo,True) 
     
     # ----- Gera saídas
     window.fill((255, 255, 255))
@@ -115,7 +131,6 @@ while game:
     while distancia_x < 1501:
         window.blit(image_bloco2, (distancia_x, 650))
         distancia_x+=250
-    window.blit(image_linha, (230, -100))
     all_sprites.draw(window)
     
     pygame.display.update()  # Mostra o novo frame para o jogador
