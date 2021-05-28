@@ -22,17 +22,44 @@ image_alvo = pygame.image.load('imagens/Covid_alvo.png').convert()
 image_alvo = pygame.transform.scale(image_alvo, (largurac, alturac))
 
 # ----- Inicia estruturas de dados
+# Defini tipo corona
+class Corona(pygame.sprite.Sprite):
+    def __init__(self, img):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randint(1100, larguraw-largurac)
+        self.rect.y = random.randint(50, 640-alturac-50)
+        self.speedy = random.randint(7, 10)
+        self.speedx = random.randint(5,10) * -1
+
+    def update(self):
+        self.rect.y += self.speedy
+        self.rect.x += self.speedx
+
+        if self.rect.bottom <= 640:
+            self.speedy = self.speedy * -1
+        if self.rect.top >= 10:
+            self.speedy = self.speedy * -1
+        if self.rect.left <= 250:
+            self.speedx = self.speedx * -1
+        if self.rect.right >= 1490:
+            self.speedx = self.speedx * -1
+
+
 game = True
-corona_x = random.randint(500, larguraw-largurac)
-corona_y = random.randint(0+75, 550-alturac-75)
-corona_y0 = corona_y
-coronaspeed_y = random.randint(1, 5)
+# FPS do jogo
 clock = pygame.time.Clock()
 FPS = 15
+
+#Cria o corona
+corona = Corona(image_alvo)
 
 # ===== Loop principal =====
 while game:
     clock.tick(FPS)
+
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
@@ -40,24 +67,10 @@ while game:
             game = False
 
     # ----- Atualiza estado do jogo
-    
-    # Atualizando a posição do meteoro:
-    corona_y += coronaspeed_y
+    corona.update()
 
     # Fazer o corona ir e voltar 
-    tempofps +=1
-    if tempofps > 150:
-        corona_x = random.randint(500, larguraw-largurac)
-        corona_y = random.randint(0+75, 550-alturac-75)
-        corona_y0 = corona_y
-        coronaspeed_y = random.randint(1, 5)
-        tempofps = 0
     
-    if corona_y > corona_y0+75:
-        coronaspeed_y = coronaspeed_y*-1
-    if corona_y < corona_y0-75:
-        coronaspeed_y = coronaspeed_y*-1
-
     # ----- Gera saídas
     window.fill((255, 255, 255))
     distancia_x = 0
@@ -65,7 +78,7 @@ while game:
         window.blit(image_bloco2, (distancia_x, 650))
         distancia_x+=250
     window.blit(image_arqueiro, (0, 200))
-    window.blit(image_alvo, (corona_x, corona_y))
+    window.blit(corona.image, corona.rect)
     pygame.display.update()  # Mostra o novo frame para o jogador
 
 # ===== Finalização =====
