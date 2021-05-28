@@ -57,7 +57,7 @@ class Corona(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         self.rect.x += self.speedx
 
-        if self.rect.bottom <= 640:
+        if self.rect.bottom <= 640-50:
             self.speedy = self.speedy * -1
         if self.rect.top >= 10:
             self.speedy = self.speedy * -1
@@ -93,14 +93,14 @@ while game:
         # Faz o arco andar
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP or event.key == pygame.K_w:
-                arco.speedy -= 10
+                arco.speedy -= 12
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                arco.speedy += 10
+                arco.speedy += 12
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_w:
-                arco.speedy += 10
+                arco.speedy += 12
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                arco.speedy -= 10
+                arco.speedy -= 12
 
     # ----- Atualiza estado do jogo
     all_sprites.update()
