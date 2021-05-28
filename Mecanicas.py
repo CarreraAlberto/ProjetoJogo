@@ -20,6 +20,8 @@ image_arqueiro = pygame.image.load('imagens/arco.png').convert_alpha()
 image_arqueiro = pygame.transform.scale(image_arqueiro, (188, 274))
 image_alvo = pygame.image.load('imagens/Covid_alvo.png').convert_alpha()
 image_alvo = pygame.transform.scale(image_alvo, (largurac, alturac))
+image_linha = pygame.image.load('imagens/linha.png').convert_alpha()
+
 
 # ----- Inicia estruturas de dados
 #Defini tipo arqueiro
@@ -113,7 +115,7 @@ while game:
     while distancia_x < 1501:
         window.blit(image_bloco2, (distancia_x, 650))
         distancia_x+=250
-
+    window.blit(image_linha, (230, -100))
     all_sprites.draw(window)
     
     pygame.display.update()  # Mostra o novo frame para o jogador
