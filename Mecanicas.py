@@ -17,11 +17,14 @@ pygame.display.set_caption('Libere a Badernahhh')
  
 # ----- Inicia assets 
 image_bloco2 = pygame.image.load('imagens/bloco2.png').convert()
+image_fundo = pygame.image.load('imagens/fundo.png').convert_alpha()
+image_fundo = pygame.transform.scale(image_fundo, (1500, 650))
 image_arqueiro = pygame.image.load('imagens/arco.png').convert_alpha()
 image_arqueiro = pygame.transform.scale(image_arqueiro, (188, 274))
 image_alvo = pygame.image.load('imagens/Covid_alvo.png').convert_alpha()
 image_alvo = pygame.transform.scale(image_alvo, (largurac, alturac))
 image_linha = pygame.image.load('imagens/linha.png').convert_alpha()
+image_linha = pygame.transform.scale(image_linha, (10, 750))
 image_vacina = pygame.image.load('imagens/vacina.png').convert_alpha()
 image_vacina = pygame.transform.scale(image_vacina, (150, 75))
 
@@ -157,6 +160,8 @@ while game:
     # ----- Gera saídas
     window.fill((255, 255, 255))
     distancia_x = 0
+    
+    window.blit(image_fundo, (0,0))
     while distancia_x < 1501:
         window.blit(image_bloco2, (distancia_x, 650))
         distancia_x+=250
