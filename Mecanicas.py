@@ -85,7 +85,7 @@ class Corona(pygame.sprite.Sprite):
 
         if self.rect.bottom <= 640-50:
             self.speedy = self.speedy * -1
-        if self.rect.top >= 10:
+        if self.rect.top >= 50:
             self.speedy = self.speedy * -1
         if self.rect.left <= xlinha:
             self.speedx = self.speedx * -1
