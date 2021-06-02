@@ -42,6 +42,8 @@ class Arco(pygame.sprite.Sprite):
         self.todos = todos
         self.agulha = agulha
         self.image_vacina = image_vacina
+        self.last_shot = pygame.time.get_ticks()
+        self.vacinar_ticks = 1500
 
     def update(self):
         self.rect.y += self.speedy
@@ -53,11 +55,17 @@ class Arco(pygame.sprite.Sprite):
 
     # Cria a vacina
     def vacinar(self):
-        vacina0 = Vacina(self.image_vacina,xlinha+20,self.rect.centery)
-        self.agulha.add(vacina0)
-        self.todos.add(vacina0)
+        #Pode atirar?
+        tiro = pygame.time.get_ticks()
+        elapsed_ticks = tiro - self.last_shot
 
-#Define linha
+        if elapsed_ticks > self.vacinar_ticks:
+            self.last_shot = tiro
+            vacina0 = Vacina(self.image_vacina,xlinha+20,self.rect.centery)
+            self.agulha.add(vacina0)
+            self.todos.add(vacina0)
+
+#Define linha 
 class Linha(pygame.sprite.Sprite):
     def __init__(self,img):
         pygame.sprite.Sprite.__init__(self)
@@ -158,7 +166,7 @@ while game:
         c = Corona(image_alvo)
         todos.add(c)
         coronaalvo.add(c)
-        
+
     # Corona bate na linha
     colisao = pygame.sprite.spritecollide(linha,coronaalvo,True) 
     if len(colisao)>0:
