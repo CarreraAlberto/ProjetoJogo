@@ -184,7 +184,7 @@ while game:
                 c = Corona(image_alvo)
                 todos.add(c)
                 coronaalvo.add(c)
-                placar +=10
+                placar -=100
 
     # ----- Gera saídas
     window.fill((255, 255, 255))
@@ -202,9 +202,9 @@ while game:
     aparecerp.midtop = (larguraw/2 + 250, 10)
     window.blit(oplacar, aparecerp)
 
-    asvidas = fonte2.render("{:08d}".format(vidas), True, (255, 255, 255))
+    asvidas = fonte2.render("Vidas: {0} ".format(vidas), True, (255, 255, 255))
     aparecerv = asvidas.get_rect()
-    aparecerp.midtop = (larguraw/2, 10)
+    aparecerv.midtop = (150, 10)
     window.blit(asvidas, aparecerv)
 
     pygame.display.update()  # Mostra o novo frame para o jogador
