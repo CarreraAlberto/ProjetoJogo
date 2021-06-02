@@ -28,7 +28,7 @@ image_linha = pygame.transform.scale(image_linha, (10, 750))
 image_vacina = pygame.image.load('imagens/vacina.png').convert_alpha()
 image_vacina = pygame.transform.scale(image_vacina, (150, 75))
 fonte = pygame.font.SysFont("rockwell", 50)
-
+fonte2 = pygame.font.SysFont("playbill", 50)
 # ----- Inicia estruturas de dados
 #Define tipo arqueiro
 class Arco(pygame.sprite.Sprite):
@@ -135,7 +135,8 @@ linha = Linha(image_linha)
 todos.add(linha)
 #Placar
 placar = 0
-
+#Vidas
+vidas = 3
 # ===== Loop principal =====
 while game:
     clock.tick(FPS)
@@ -174,7 +175,16 @@ while game:
     # Corona bate na linha
     colisao = pygame.sprite.spritecollide(linha,coronaalvo,True) 
     if len(colisao)>0:
-        game = False
+        vidas -= 1
+        if vidas == 0:
+            game = False
+        else:
+            game = True
+            for corona in colisao:
+                c = Corona(image_alvo)
+                todos.add(c)
+                coronaalvo.add(c)
+                placar +=10
 
     # ----- Gera saídas
     window.fill((255, 255, 255))
@@ -191,6 +201,11 @@ while game:
     aparecerp = oplacar.get_rect()
     aparecerp.midtop = (larguraw/2 + 250, 10)
     window.blit(oplacar, aparecerp)
+
+    asvidas = fonte2.render("{:08d}".format(vidas), True, (255, 255, 255))
+    aparecerv = asvidas.get_rect()
+    aparecerp.midtop = (larguraw/2, 10)
+    window.blit(asvidas, aparecerv)
 
     pygame.display.update()  # Mostra o novo frame para o jogador
 
