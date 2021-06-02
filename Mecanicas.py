@@ -152,6 +152,13 @@ while game:
     # ----- Atualiza estado do jogo
     todos.update()
 
+    # Tiro acerta corona
+    colisao = pygame.sprite.groupcollide(coronaalvo, agulha, True, True)
+    for corona in colisao:
+        c = Corona(image_alvo)
+        todos.add(c)
+        coronaalvo.add(c)
+        
     # Corona bate na linha
     colisao = pygame.sprite.spritecollide(linha,coronaalvo,True) 
     if len(colisao)>0:
