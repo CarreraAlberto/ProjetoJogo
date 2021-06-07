@@ -4,7 +4,7 @@ import pygame
 import random
 
 pygame.init()
-
+pygame.mixer.init()
 # ----- Gera tela principal
 tempofps = 0
 larguraw = 1500
@@ -14,7 +14,7 @@ alturac = 100
 xlinha = 200
 window = pygame.display.set_mode((larguraw, alturaw))
 pygame.display.set_caption('Libere a Badernahhh')
- 
+
 # ----- Inicia assets 
 image_bloco2 = pygame.image.load('imagens/bloco2.png').convert()
 image_fundo = pygame.image.load('imagens/fundo.png').convert_alpha()
@@ -29,6 +29,9 @@ image_vacina = pygame.image.load('imagens/vacina.png').convert_alpha()
 image_vacina = pygame.transform.scale(image_vacina, (150, 75))
 fonte = pygame.font.SysFont("rockwell", 50)
 fonte2 = pygame.font.SysFont("playbill", 50)
+
+pygame.mixer.music.load('imagens/musicajogo.mp3')
+pygame.mixer.music.set_volume(0.2)
 # ----- Inicia estruturas de dados
 #Define tipo arqueiro
 class Arco(pygame.sprite.Sprite):
@@ -138,6 +141,7 @@ placar = 0
 #Vidas
 vidas = 3
 # ===== Loop principal =====
+pygame.mixer.music.play(loops=-1)
 while game:
     clock.tick(FPS)
 
