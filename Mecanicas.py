@@ -85,8 +85,8 @@ class Corona(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(1100, larguraw-largurac)
         self.rect.y = random.randint(50, 640-alturac-50)
-        self.speedy = random.randint(7, 10)
-        self.speedx = random.randint(5,10) * -1
+        self.speedy = random.randint(10, 15)
+        self.speedx = random.randint(9, 12) * -1
 
     def update(self):
         self.rect.y += self.speedy
