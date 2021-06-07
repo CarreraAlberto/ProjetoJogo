@@ -121,7 +121,7 @@ class Vacina(pygame.sprite.Sprite):
 game = True
 # FPS do jogo
 clock = pygame.time.Clock()
-FPS = 30
+FPS = 15
 
 #Cria o corona
 todos = pygame.sprite.Group()
@@ -141,7 +141,6 @@ placar = 0
 #Vidas
 vidas = 3
 # ===== Loop principal =====
-pygame.mixer.music.play(loops=-1)
 while game:
     clock.tick(FPS)
 
