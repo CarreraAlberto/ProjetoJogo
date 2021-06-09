@@ -9,8 +9,8 @@ pygame.mixer.init()
 tempofps = 0
 larguraw = 1500
 alturaw = 750
-largurac = 100
-alturac = 100
+largurac = 75
+alturac = 75
 xlinha = 200
 window = pygame.display.set_mode((larguraw, alturaw))
 pygame.display.set_caption('Libere a Badernahhh')
@@ -26,7 +26,7 @@ image_alvo = pygame.transform.scale(image_alvo, (largurac, alturac))
 image_linha = pygame.image.load('imagens/linha.png').convert_alpha()
 image_linha = pygame.transform.scale(image_linha, (10, 750))
 image_vacina = pygame.image.load('imagens/vacina.png').convert_alpha()
-image_vacina = pygame.transform.scale(image_vacina, (150, 75))
+image_vacina = pygame.transform.scale(image_vacina, (100, 50))
 fonte = pygame.font.SysFont("rockwell", 50)
 fonte2 = pygame.font.SysFont("playbill", 50)
 
@@ -65,7 +65,7 @@ class Arco(pygame.sprite.Sprite):
 
         if elapsed_ticks > self.vacinar_ticks:
             self.last_shot = tiro
-            vacina0 = Vacina(self.image_vacina,xlinha+20,self.rect.centery)
+            vacina0 = Vacina(self.image_vacina,150,self.rect.centery-30)
             self.agulha.add(vacina0)
             self.todos.add(vacina0)
 
@@ -89,7 +89,7 @@ class Corona(pygame.sprite.Sprite):
         self.rect.x = random.randint(1100, larguraw-largurac)
         self.rect.y = random.randint(50, 640-alturac-50)
         self.speedy = random.randint(10, 15)
-        self.speedx = random.randint(9, 12) * -1
+        self.speedx = random.randint(12, 17) * -1
 
     def update(self):
         self.rect.y += self.speedy
@@ -110,7 +110,7 @@ class Vacina(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centery = centery
         self.rect.left = left
-        self.speedx = 25
+        self.speedx = 40
 
     def update(self):
         self.rect.x  += self.speedx
@@ -154,16 +154,16 @@ while game:
         # Faz o arco andar
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP or event.key == pygame.K_w:
-                arco.speedy -= 12
+                arco.speedy -= 20
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                arco.speedy += 12
+                arco.speedy += 20
             if event.key == pygame.K_SPACE or event.key == pygame.K_q:
                 arco.vacinar()
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_w:
-                arco.speedy += 12
+                arco.speedy += 20
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                arco.speedy -= 12
+                arco.speedy -= 20
 
     # ----- Atualiza estado do jogo
     todos.update()
