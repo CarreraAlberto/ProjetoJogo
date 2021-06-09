@@ -141,6 +141,7 @@ placar = 0
 #Vidas
 vidas = 3
 # ===== Loop principal =====
+pygame.mixer.music.play(loops=-1)
 while game:
     clock.tick(FPS)
 
