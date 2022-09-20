@@ -20,13 +20,15 @@ class Arco(pygame.sprite.Sprite):
         self.last_shot = pygame.time.get_ticks()
         self.vacinar_ticks = 1000
 
-    def update(self):
-        self.rect.y += self.speedy
-
+    def checa(self):
         if self.rect.top < 0:
             self.rect.top = 0
         if self.rect.bottom > 650:
             self.rect.bottom = 650
+
+    def update(self):
+        self.rect.y += self.speedy
+        self.checa()
 
     # Cria a vacina
     def vacinar(self):

@@ -19,13 +19,16 @@ class Corona(pygame.sprite.Sprite):
         self.speedy = random.randint(10, 15)
         self.speedx = random.randint(12, 17) * -1
 
-    def update(self):
-        self.rect.y += self.speedy
-        self.rect.x += self.speedx
-
+    def checa(self):
         if self.rect.bottom <= 640-50:
             self.speedy = self.speedy * -1
         if self.rect.top >= 50:
             self.speedy = self.speedy * -1
         if self.rect.left <= xlinha:
             self.speedx = self.speedx * -1
+
+    def update(self):
+        self.rect.y += self.speedy
+        self.rect.x += self.speedx
+        self.checa()
+        
