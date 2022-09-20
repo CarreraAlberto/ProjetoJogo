@@ -2,6 +2,7 @@
 # ----- Importa e inicia pacotes
 import pygame
 import random
+from Classes import Arco, Corona, Linha
 
 pygame.init()
 pygame.mixer.init()
@@ -30,118 +31,39 @@ image_vacina = pygame.transform.scale(image_vacina, (100, 50))
 fonte = pygame.font.SysFont("rockwell", 50)
 fonte2 = pygame.font.SysFont("playbill", 50)
 
-pygame.mixer.music.load('imagens/musicajogo.mp3')
-pygame.mixer.music.set_volume(0.2)
+todos = pygame.sprite.Group()
+agulha = pygame.sprite.Group()
+coronaalvo = pygame.sprite.Group()
+
+# pygame.mixer.music.load('imagens/musicajogo.mp3')
+# pygame.mixer.music.set_volume(0.2)
+
 # ----- Inicia estruturas de dados
 #Define tipo arqueiro
-class Arco(pygame.sprite.Sprite):
-    def __init__(self,img,todos,agulha, image_vacina):
-        pygame.sprite.Sprite.__init__(self)
+arco = Arco.Arco(image_arqueiro, todos, agulha, image_vacina)
+todos.add(arco)
+ 
+#Criando linha
+linha = Linha.Linha(image_linha)
+todos.add(linha)
 
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.centery = alturaw / 2
-        self.rect.left = 0
-        self.speedy = 0
-        self.todos = todos
-        self.agulha = agulha
-        self.image_vacina = image_vacina
-        self.last_shot = pygame.time.get_ticks()
-        self.vacinar_ticks = 1000
-
-    def update(self):
-        self.rect.y += self.speedy
-
-        if self.rect.top < 0:
-            self.rect.top = 0
-        if self.rect.bottom > 650:
-            self.rect.bottom = 650
-
-    # Cria a vacina
-    def vacinar(self):
-        #Pode atirar?
-        tiro = pygame.time.get_ticks()
-        elapsed_ticks = tiro - self.last_shot
-
-        if elapsed_ticks > self.vacinar_ticks:
-            self.last_shot = tiro
-            vacina0 = Vacina(self.image_vacina,150,self.rect.centery-30)
-            self.agulha.add(vacina0)
-            self.todos.add(vacina0)
-
-#Define linha 
-class Linha(pygame.sprite.Sprite):
-    def __init__(self,img):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.left = xlinha
-        self.rect.top = -100
-
-#Define tipo corona
-class Corona(pygame.sprite.Sprite):
-    def __init__(self, img):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randint(1100, larguraw-largurac)
-        self.rect.y = random.randint(50, 640-alturac-50)
-        self.speedy = random.randint(10, 15)
-        self.speedx = random.randint(12, 17) * -1
-
-    def update(self):
-        self.rect.y += self.speedy
-        self.rect.x += self.speedx
-
-        if self.rect.bottom <= 640-50:
-            self.speedy = self.speedy * -1
-        if self.rect.top >= 50:
-            self.speedy = self.speedy * -1
-        if self.rect.left <= xlinha:
-            self.speedx = self.speedx * -1
+#Cria o corona
+corona = Corona.Corona(image_alvo)
+todos.add(corona)
+coronaalvo.add(corona)
     
-#Define a vacina
-class Vacina(pygame.sprite.Sprite):
-    def __init__(self, img, left, centery):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.centery = centery
-        self.rect.left = left
-        self.speedx = 40
-
-    def update(self):
-        self.rect.x  += self.speedx
-        if self.rect.left > larguraw:
-            self.kill()
-
-
+# Jogo
 game = True
 # FPS do jogo
 clock = pygame.time.Clock()
 FPS = 15
 
-#Cria o corona
-todos = pygame.sprite.Group()
-corona = Corona(image_alvo)
-todos.add(corona)
-coronaalvo = pygame.sprite.Group()
-coronaalvo.add(corona)
-agulha = pygame.sprite.Group()
-#Criando o player
-arco = Arco(image_arqueiro, todos, agulha, image_vacina)
-todos.add(arco)
-#Criando linha
-linha = Linha(image_linha)
-todos.add(linha)
 #Placar
 placar = 0
 #Vidas
 vidas = 3
 # ===== Loop principal =====
-pygame.mixer.music.play(loops=-1)
+# pygame.mixer.music.play(loops=-1)
 while game:
     clock.tick(FPS)
 
@@ -171,7 +93,7 @@ while game:
     # Tiro acerta corona
     colisao = pygame.sprite.groupcollide(coronaalvo, agulha, True, True)
     for corona in colisao:
-        c = Corona(image_alvo)
+        c = Corona.Corona(image_alvo)
         todos.add(c)
         coronaalvo.add(c)
         placar +=10
@@ -185,7 +107,7 @@ while game:
         else:
             game = True
             for corona in colisao:
-                c = Corona(image_alvo)
+                c = Corona.Corona(image_alvo)
                 todos.add(c)
                 coronaalvo.add(c)
                 placar -=100
