@@ -13,7 +13,10 @@ class Vacina(pygame.sprite.Sprite):
         self.rect.left = left
         self.speedx = 40
 
-    def update(self):
-        self.rect.x  += self.speedx
+    def checa(self):
         if self.rect.left > larguraw:
             self.kill()
+
+    def update(self):
+        self.rect.x  += self.speedx
+        self.checa()
