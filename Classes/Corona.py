@@ -1,21 +1,13 @@
-import pygame 
 import random
 
-# Inicia variaveis
-larguraw = 1500
-largurac = 75
-alturac = 75
-xlinha = 200
+from Classes.Objeto import Objeto
+import constantes
 
-# Classe Corona
-class Corona(pygame.sprite.Sprite):
+class Corona(Objeto):
     def __init__(self, img):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randint(1100, larguraw-largurac)
-        self.rect.y = random.randint(50, 640-alturac-50)
+        super().__init__(img)
+        self.rect.x = random.randint(1100, constantes.LARGURA_W-constantes.LARGURA_C)
+        self.rect.y = random.randint(50, 640-constantes.ALTURA_C-50)
         self.speedy = random.randint(10, 15)
         self.speedx = random.randint(12, 17) * -1
 
@@ -24,11 +16,9 @@ class Corona(pygame.sprite.Sprite):
             self.speedy = self.speedy * -1
         if self.rect.top >= 50:
             self.speedy = self.speedy * -1
-        if self.rect.left <= xlinha:
+        if self.rect.left <= constantes.X_LINHA:
             self.speedx = self.speedx * -1
 
     def update(self):
-        self.rect.y += self.speedy
-        self.rect.x += self.speedx
+        super().update(self.speedx, self.speedy)
         self.checa()
-        

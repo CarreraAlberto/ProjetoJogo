@@ -1,17 +1,13 @@
 import pygame
+
+from Classes.Objeto import Objeto
 from Classes.Vacina import Vacina
+import constantes
 
-# Inicia variaveis
-alturaw = 750
-
-# Classe Arco
-class Arco(pygame.sprite.Sprite):
+class Arco(Objeto):
     def __init__(self,img,todos,agulha, image_vacina):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.centery = alturaw / 2
+        super().__init__(img)
+        self.rect.centery = constantes.ALTURA_W / 2
         self.rect.left = 0
         self.speedy = 0
         self.todos = todos
@@ -27,12 +23,10 @@ class Arco(pygame.sprite.Sprite):
             self.rect.bottom = 650
 
     def update(self):
-        self.rect.y += self.speedy
+        super().update(0, self.speedy)
         self.checa()
 
-    # Cria a vacina
     def vacinar(self):
-        #Pode atirar?
         tiro = pygame.time.get_ticks()
         elapsed_ticks = tiro - self.last_shot
 
