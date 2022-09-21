@@ -1,22 +1,18 @@
-import pygame
+from Classes.Objeto import Objeto
 
-# Inicia variaveis
-larguraw = 1500
+import constantes
 
-# Classe Vacina
-class Vacina(pygame.sprite.Sprite):
+class Vacina(Objeto):
     def __init__(self, img, left, centery):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = img
-        self.rect = self.image.get_rect()
+        super().__init__(img)
         self.rect.centery = centery
         self.rect.left = left
         self.speedx = 40
 
     def checa(self):
-        if self.rect.left > larguraw:
+        if self.rect.left > constantes.LARGURA_W:
             self.kill()
 
     def update(self):
-        self.rect.x  += self.speedx
+        super().update(self.speedx, 0)
         self.checa()
